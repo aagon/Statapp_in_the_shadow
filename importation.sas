@@ -1,6 +1,6 @@
 %macro importation;
 %do j=1 %to 24;
-	libname per&j. "C:\Users\Rico\Desktop\Donnees_modifiees\Periode&j.";
+	libname per&j. "D:\Data\SAS\Donnees_modifiees\Periode&j.";
 %end;
 
 %do j=1 %to 24;
