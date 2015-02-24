@@ -91,3 +91,56 @@ RUN;
 
 %mend importation;
 %importation
+
+%macro concatenation;
+
+%do j=1 %to 24;
+	%do i=1 %to 40;
+		Proc sort data=Per&j..datapart&i;
+			by idrssd;
+		Run;
+	%end;
+%end;
+
+%do j=1 %to 6;
+	Data Per&j..Datatot;
+		merge Per&j..datapart1-Per&j..datapart35;
+		by idrssd;
+	run;
+%end;
+
+Data Per8.datatot;
+	merge Per8.datapart1-Per8.datapart35;
+	by idrssd;
+run;
+
+data Per7.datatot;
+	merge Per7.datapart1-Per7.datapart36;
+	by idrssd;
+run;
+
+%do j= 9 %to 17;
+	Data Per&j..Datatot;
+		merge Per&j..datapart1-Per&j..datapart36;
+		by idrssd;
+	run;
+%end;
+
+%do j=18 %to 19;
+	Data Per&j..Datatot;
+		merge Per&j..datapart1-Per&j..datapart39;
+		by idrssd;
+	run;
+%end;
+
+%do j=20 %to 24;
+	Data Per&j..Datatot;
+		merge Per&j..datapart1-Per&j..datapart40;
+		by idrssd;
+	run;
+%end;
+
+%mend concatenation;
+
+%concatenation;
+
