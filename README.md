@@ -17,4 +17,4 @@ The sas file in the master branch should give you : every txt file converted int
 
 It is for the time being impossible to put these 24 databases together, as the amount and type of variables change significantly over the period.
 
-The full concatenation is only possible on a subset of variables that are present and nonidentical to 0 in all periods. I have not been able to determine the biggest subset that respects that condition. So the concatenation will only be possible once one valid subset has been determined.
+Concatenation is only possible on a subset of variables that are present and nonidentical to 0 in all periods. I have not been able to determine the biggest subset that respects that condition. So the concatenation will only be possible once one valid subset has been determined.
