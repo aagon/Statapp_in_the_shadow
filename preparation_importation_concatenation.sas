@@ -3,21 +3,21 @@
 %macro preparation;
   
 %do j=1 %to 24;
-  libname per&j. "D:\Data\SAS\Donnees_modifiees\Periode&j.";
-  libname samper&j. "D:\Data\SAS\Donnees_modifiees\SamPeriode&j.";
+  libname per&j. "C:\Users\Rico\Documents\SAS Data\Donnees_modifiees\Periode&j.";
+  libname samper&j. "C:\Users\Rico\Documents\SAS Data\Donnees_modifiees\SamPeriode&j.";
 %end;
 
-libname allper "D:\Data\SAS\Donnees_modifiees\Allperiods";
-libname annexe "D:\Data\SAS\Donnees_modifiees\annexe";
-libname samall "D:\Data\SAS\Donnees_modifiees\Samallperiods";
+libname allper "C:\Users\Rico\Documents\SAS Data\Donnees_modifiees\Allperiods";
+libname annexe "C:\Users\Rico\Documents\SAS Data\Donnees_modifiees\annexe";
+libname samall "C:\Users\Rico\Documents\SAS Data\Donnees_modifiees\Samallperiods";
 
 %mend preparation;
 
-%preparation
+%preparation;
 
 /*Selection des banques à garder, selon le critère retenu*/
 
-PROC IMPORT OUT=work.etalon DATAFILE="C:\Users\Rico\Desktop\Donnees_brutes\1\File8.txt" DBMS=TAB REPLACE;
+PROC IMPORT OUT=work.etalon DATAFILE="C:\Users\Rico\Documents\SAS Data\Donnees_brutes\1\File8.txt" DBMS=TAB REPLACE;
 	GETNAMES=YES;
 	DATAROW=3;
 RUN;
@@ -52,7 +52,7 @@ RUN;
 
 DATA work.etalon;
 	SET work.etalon;
-	IF rcon2170cumfreq <= 83 THEN b2o = 1;
+	IF rcon2170cumfreq <= 81 THEN b2o = 1;
 	ELSE b2o=0;
 RUN;
 
@@ -66,7 +66,7 @@ RUN;
 
 %do j=1 %to 24;
 	%do i=1 %to 40;
-		PROC IMPORT OUT=Per&j..Datapart&i DATAFILE="C:\Users\Rico\Desktop\Donnees_brutes\&j.\File&i..txt"
+		PROC IMPORT OUT=Per&j..Datapart&i DATAFILE="C:\Users\Rico\Documents\SAS Data\Donnees_brutes\&j.\File&i..txt"
 			DBMS=TAB REPLACE;
 			GETNAMES=YES;
 			DATAROW=3;
@@ -99,12 +99,19 @@ RUN;
 		Proc sort data=Per&j..datapart&i;
 			by idrssd;
 		Run;
+		Proc sort data=Samper&j..datapart&i;
+			by idrssd;
+		run;
 	%end;
 %end;
 
 %do j=1 %to 6;
 	Data Per&j..Datatot;
 		merge Per&j..datapart1-Per&j..datapart35;
+		by idrssd;
+	run;
+	Data samPer&j..Datatot;
+		merge samPer&j..datapart1-samPer&j..datapart35;
 		by idrssd;
 	run;
 %end;
@@ -119,9 +126,23 @@ data Per7.datatot;
 	by idrssd;
 run;
 
+Data samPer8.datatot;
+	merge samPer8.datapart1-samPer8.datapart35;
+	by idrssd;
+run;
+
+data samPer7.datatot;
+	merge samPer7.datapart1-samPer7.datapart36;
+	by idrssd;
+run;
+
 %do j= 9 %to 17;
 	Data Per&j..Datatot;
 		merge Per&j..datapart1-Per&j..datapart36;
+		by idrssd;
+	run;
+	Data samPer&j..Datatot;
+		merge samPer&j..datapart1-samPer&j..datapart36;
 		by idrssd;
 	run;
 %end;
@@ -131,11 +152,19 @@ run;
 		merge Per&j..datapart1-Per&j..datapart39;
 		by idrssd;
 	run;
+	Data samPer&j..Datatot;
+		merge samPer&j..datapart1-samPer&j..datapart39;
+		by idrssd;
+	run;
 %end;
 
 %do j=20 %to 24;
 	Data Per&j..Datatot;
 		merge Per&j..datapart1-Per&j..datapart40;
+		by idrssd;
+	run;
+	Data samPer&j..Datatot;
+		merge samPer&j..datapart1-samPer&j..datapart40;
 		by idrssd;
 	run;
 %end;
